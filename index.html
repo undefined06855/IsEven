@@ -57,83 +57,163 @@
              * \ undefined06855
             */
 
-            :root {
-                --colour-palette-1: rgb(240, 255, 253);
-                --colour-palette-2: rgb(121, 218, 232);
-                --colour-palette-3: rgb(10, 161, 221);
-                --colour-palette-4: rgb(33, 85, 205);
-                
+            :root
+            {
                 --highlight-colour: rgb(45, 230, 142);
                 --border-colour: rgb(4, 3, 3);
             }
 
-            @font-face {
+            @font-face
+            {
                 font-family: opensaucesans;
                 src: url(./resources/opensaucesans-semibold.ttf);
             }
 
-            #title, #invert_checkbox, #invert_label {
+            #title, #invert_checkbox, #invert_label
+            {
                 font-family: opensaucesans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                 
             }
 
-            #title {
-                flex: 3 1 4fr;
+            #title
+            {
                 align-self: center;
                 font-size: large;
                 font-size: 140%;
             }
 
-            #flex-spacer {
-                flex: 1 1 1fr;
+            #flex-spacer
+            {
                 align-self: flex-start;
             }
 
-            #checkbox-wrapper {
-                flex: 1 1 1fr;
+            #checkbox-wrapper
+            {
                 align-self: flex-end;
             }
 
-            #invert-label {
-                font-size: small;
-                font-size: 80%;
+            #invert-label
+            {
+                font-size: medium;
             }
 
-            #title-wrapper {
+            #title-wrapper
+            {
                 display: flex;
                 flex-flow: row nowrap;
                 justify-content: space-between;
                 width: 90%;
             }
 
-            #title-flex-center {
+            #title-flex-center
+            {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 width: 100%;
-                height: 5%;
+                height: 8%;
+                border-bottom: 2px double var(--border-colour);
+
+            }
+
+            #float-container
+            {
                 position: fixed;
                 top: 0px;
                 left: 0px;
-                border-bottom: 2px double var(--border-colour);
+                width: 100vw;
+                height: 100vh;
+            }
 
+            #main-webpage-wrapper
+            {
+                width: 100vw;
+                height: 92vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #num
+            {
+                display: table-cell;
+                width: 40vw;
+                height: 40vh;
+                font-size: 69px;
+                resize: none;
+                text-align: center;
+                vertical-align: middle;
+                padding:  0;
+                border: 1px solid var(--border-colour);
+                border-radius: 10px;
+            }
+
+            #input-wrapper
+            {
+                display: table;
+            }
+
+            li::marker
+            {
+                content:"";
+            }
+
+            #invert_checkbox, #invert_label
+            {
+                float: left;
             }
 
         </style>
     </head>
     <body>
-        <div id="title-flex-center">
-            <div id="title-wrapper">
-                <div id="flex-spacer">&nbsp;</div>
-                <div id="title">
-                    IsEven
+        <div id="float-container">
+            <div id="title-flex-center">
+                <div id="title-wrapper">
+                    <div id="flex-spacer">&nbsp;</div>
+                    <div id="title">
+                        IsEven
+                    </div>
+                    <div id="checkbox-wrapper">
+                        <!--Using a li hack to align the checkbox and label-->
+                        <li><input type="checkbox" id="invert_checkbox" />
+                        <label for="invert_checkbox" id="invert_label">Invert</label></li>
+                    </div>
                 </div>
-                <div id="checkbox-wrapper">
-                    <input type="checkbox" id="invert_checkbox" />
-                    <label for="invert_checkbox" id="invert_label">Invert</label>
+            </div>
+            <div id="main-webpage-wrapper">
+                <div id="input-wrapper">
+                    <!--It was a div all along. (Helps with sizing etc.)-->
+                    <div id="num" contenteditable="true"><br/></div>
                 </div>
             </div>
         </div>
-        
+        <script type="text/javascript">
+            //Stuff to handle changing stuff in input
+
+            const maxlen = 8
+                , num = document.getElementById("num");
+            
+            num.addEventListener("input", event => {
+                if (num.innerText.length > maxlen) num.innerText = num.innerText.replace(/.$/, '');
+
+                num.innerText = num.innerText.replace(/[^0-9.]|\./gi, ""); //Remove text / decimal points
+
+                if (num.innerText % 2 == 0)
+                {
+                    //ITS EVEN LET'S GOOOO
+                    console.log("%s IS EVEN LET'S GOOO", num.toString());
+
+                    //updateBG(true);
+                }
+                else
+                {
+                    //aww it's odd :(
+                    console.log("darn %s is an odd number", num.toString());
+
+                    //updateBG(false);
+                    
+                }
+            }, false)
+        </script>
     </body>
 </html>

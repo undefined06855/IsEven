@@ -59,7 +59,8 @@
 
             :root
             {
-                --highlight-colour: rgb(45, 230, 142);
+                --ye-colour: ;
+
                 --border-colour: rgb(4, 3, 3);
             }
 
@@ -68,8 +69,13 @@
                 font-family: opensaucesans;
                 src: url(./resources/opensaucesans-semibold.ttf);
             }
+            @font-face
+            {
+                font-family: sharetechmono;
+                src: url(./resources/sharetechmono-regular.ttf);
+            }
 
-            #title, #invert_checkbox, #invert_label
+            #title, #invert_checkbox, #invert_label, #output-box
             {
                 font-family: opensaucesans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                 
@@ -139,18 +145,24 @@
                 display: table-cell;
                 width: 40vw;
                 height: 40vh;
-                font-size: 69px;
+                font-size: 96px;
                 resize: none;
                 text-align: center;
                 vertical-align: middle;
-                padding:  0;
-                border: 1px solid var(--border-colour);
+                border: 5px double var(--border-colour);
                 border-radius: 10px;
+                box-sizing: border-box;
+                font-family: sharetechmono, 'Courier New', Courier, monospace;
             }
 
             #input-wrapper
             {
                 display: table;
+            }
+
+            #output-box {
+                text-align: center;
+                display: inline;
             }
 
             li::marker
@@ -182,38 +194,59 @@
             </div>
             <div id="main-webpage-wrapper">
                 <div id="input-wrapper">
-                    <!--It was a div all along. (Helps with sizing etc.)-->
-                    <div id="num" contenteditable="true"><br/></div>
+                    <!--It was a textarea all along. (Helps with sizing etc.)-->
+                    <div id="output_box">
+                        <span>
+                            yargh
+                        </span>
+                    </div>
+                    <textarea id="num" tabindex="0" rows="1"></textarea>
                 </div>
             </div>
         </div>
         <script type="text/javascript">
             //Stuff to handle changing stuff in input
-
             const maxlen = 8
-                , num = document.getElementById("num");
+                , num = document.getElementById("num")
+                , colors = {
+                    "yas": "rgb(45, 230, 142)",
+                    "nooo": "rgb(219, 22, 15)"
+                };
             
             num.addEventListener("input", event => {
-                if (num.innerText.length > maxlen) num.innerText = num.innerText.replace(/.$/, '');
-
-                num.innerText = num.innerText.replace(/[^0-9.]|\./gi, ""); //Remove text / decimal points
-
-                if (num.innerText % 2 == 0)
+                if (num.value != "")
                 {
-                    //ITS EVEN LET'S GOOOO
-                    console.log("%s IS EVEN LET'S GOOO", num.toString());
+                    if (num.value.length > maxlen) num.value = num.value.replace(/.$/, ''); //Enforce maximum length
 
-                    //updateBG(true);
-                }
-                else
-                {
-                    //aww it's odd :(
-                    console.log("darn %s is an odd number", num.toString());
+                    num.value = num.value.replace(/[^0-9.]|\./gi, ""); //Remove text / decimal points
 
-                    //updateBG(false);
                     
+                    if (num.value % 2 == 0)
+                    {
+                        //ITS EVEN LET'S GOOOO
+                        console.log("%s EVEN", num.value.toString());
+
+                        num.style.backgroundColor = colors["yas"]
+                        
+                    }
+                    else
+                    {
+                        //aww it's odd :(
+                        console.log("%s ODD", num.value.toString());
+
+                        num.style.backgroundColor = colors["nooo"]
+                        
+                        
+                    }
                 }
             }, false)
+
+            //Center text in textarea (Why is there no css for this?) and set color to white when nothing inputted
+            setInterval(() => {
+                num.style.paddingTop = (num.offsetHeight / 2) - parseFloat(getComputedStyle(num).fontSize) + "px";
+                if (num.value == "") num.style.backgroundColor = "initial"
+            }, 50)
+            
         </script>
     </body>
 </html>

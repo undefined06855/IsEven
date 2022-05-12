@@ -75,7 +75,7 @@
                 src: url(./resources/sharetechmono-regular.ttf);
             }
 
-            #title, #invert_checkbox, #invert_label, #output-box
+            #title, #invert_checkbox, #invert_label, #output_box > span
             {
                 font-family: opensaucesans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                 
@@ -90,12 +90,14 @@
 
             #flex-spacer
             {
-                align-self: flex-start;
+                align-self: flex-e;
+                flex: 1;
             }
 
             #checkbox-wrapper
             {
                 align-self: flex-end;
+                flex: 1;
             }
 
             #invert-label
@@ -145,7 +147,7 @@
                 display: table-cell;
                 width: 40vw;
                 height: 40vh;
-                font-size: 96px;
+                font-size: 600%;
                 resize: none;
                 text-align: center;
                 vertical-align: middle;
@@ -155,14 +157,10 @@
                 font-family: sharetechmono, 'Courier New', Courier, monospace;
             }
 
-            #input-wrapper
-            {
-                display: table;
-            }
-
-            #output-box {
-                text-align: center;
-                display: inline;
+            #output_box {
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
             li::marker
@@ -172,7 +170,7 @@
 
             #invert_checkbox, #invert_label
             {
-                float: left;
+                float: right;
             }
 
         </style>
@@ -181,7 +179,7 @@
         <div id="float-container">
             <div id="title-flex-center">
                 <div id="title-wrapper">
-                    <div id="flex-spacer">&nbsp;</div>
+                    <div id="flex-spacer"></div>
                     <div id="title">
                         IsEven
                     </div>
@@ -196,10 +194,9 @@
                 <div id="input-wrapper">
                     <!--It was a textarea all along. (Helps with sizing etc.)-->
                     <div id="output_box">
-                        <span>
-                            yargh
-                        </span>
+                        <span>&nbsp;</span>
                     </div>
+                    <br/>
                     <textarea id="num" tabindex="0" rows="1"></textarea>
                 </div>
             </div>
@@ -211,23 +208,26 @@
                 , colors = {
                     "yas": "rgb(45, 230, 142)",
                     "nooo": "rgb(219, 22, 15)"
-                };
-            
+                }
+                , specialCases = {
+                    "69": "It's Nice!",
+                    "1987": ". . .",
+                    "4816": "Safe Unlocked!"
+                }
+                ;
             num.addEventListener("input", event => {
+                num.value = num.value.replace(/[^0-9.]|\./gi, ""); //Remove text / decimal points
+                if (num.value.length > maxlen) num.value = num.value.replace(/.$/, ''); //Enforce maximum length
                 if (num.value != "")
                 {
-                    if (num.value.length > maxlen) num.value = num.value.replace(/.$/, ''); //Enforce maximum length
-
-                    num.value = num.value.replace(/[^0-9.]|\./gi, ""); //Remove text / decimal points
-
-                    
                     if (num.value % 2 == 0)
                     {
                         //ITS EVEN LET'S GOOOO
                         console.log("%s EVEN", num.value.toString());
 
                         num.style.backgroundColor = colors["yas"]
-                        
+                        document.querySelector("span").style.color = colors["yas"]
+                        document.querySelector("span").innerText = "It's even!"
                     }
                     else
                     {
@@ -235,16 +235,24 @@
                         console.log("%s ODD", num.value.toString());
 
                         num.style.backgroundColor = colors["nooo"]
-                        
-                        
+                        document.querySelector("span").style.color = colors["nooo"]
+                        document.querySelector("span").innerText = "It's odd!"
                     }
                 }
+                else
+                {
+                    num.style.backgroundColor = "initial"
+                    document.querySelector("span").innerHTML = "&nbsp;"
+                }
+
+                if (specialCases[num.value] != undefined) num.innerHTML = specialCases[num.value]
+                
             }, false)
 
             //Center text in textarea (Why is there no css for this?) and set color to white when nothing inputted
             setInterval(() => {
-                num.style.paddingTop = (num.offsetHeight / 2) - parseFloat(getComputedStyle(num).fontSize) + "px";
-                if (num.value == "") num.style.backgroundColor = "initial"
+                num.style.paddingTop = ((num.offsetHeight / 2) - parseFloat(getComputedStyle(num).fontSize)) / 2 + "px";
+                num.style.paddingBottom = ((num.offsetHeight / 2) - parseFloat(getComputedStyle(num).fontSize)) / 2 + "px";
             }, 50)
             
         </script>

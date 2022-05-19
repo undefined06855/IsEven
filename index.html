@@ -205,13 +205,15 @@
             //Stuff to handle changing stuff in input
             const maxlen = 8
                 , num = document.getElementById("num")
+                , title = document.getElementById("title")
+                , out = document.querySelector("span")
                 , colors = {
                     "yas": "rgb(45, 230, 142)",
                     "nooo": "rgb(219, 22, 15)"
                 }
                 , specialCases = {
                     "69": "It's Nice!",
-                    "1987": ". . .",
+                    "1987": "Was that the bite of '87?",
                     "4816": "Safe Unlocked!"
                 }
                 ;
@@ -226,8 +228,8 @@
                         console.log("%s EVEN", num.value.toString());
 
                         num.style.backgroundColor = colors["yas"]
-                        document.querySelector("span").style.color = colors["yas"]
-                        document.querySelector("span").innerText = "It's even!"
+                        out.style.color = colors["yas"]
+                        out.innerText = "It's even!"
                     }
                     else
                     {
@@ -235,19 +237,20 @@
                         console.log("%s ODD", num.value.toString());
 
                         num.style.backgroundColor = colors["nooo"]
-                        document.querySelector("span").style.color = colors["nooo"]
-                        document.querySelector("span").innerText = "It's odd!"
+                        out.style.color = colors["nooo"]
+                        out.innerText = "It's odd!"
                     }
                 }
                 else
                 {
                     num.style.backgroundColor = "initial"
-                    document.querySelector("span").innerHTML = "&nbsp;"
+                    out.innerHTML = "&nbsp;"
                 }
 
-                if (specialCases[num.value] != undefined) document.querySelector("span").innerText = specialCases[num.value]
+                if (specialCases[num.value] != undefined) out.innerText = specialCases[num.value]
                 
             }, false)
+            
 
             //Center text in textarea (Why is there no css for this?) and set color to white when nothing inputted
             setInterval(() => {

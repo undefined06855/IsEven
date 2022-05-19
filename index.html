@@ -202,7 +202,7 @@
             </div>
         </div>
         <script type="text/javascript">
-            
+
             function update()
             {
                 num.value = num.value.replace(/[^0-9.]|\./g, ""); //Remove text / decimal points
@@ -252,7 +252,7 @@
                     "nooo": "rgb(219, 22, 15)"
                 };
             
-            num.addEventListener("input", event => update, false);
+            num.addEventListener("input", update, false);
 
             chk.addEventListener("change", event => {
                 if (chk.value == "on")

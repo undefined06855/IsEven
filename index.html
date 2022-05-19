@@ -194,7 +194,7 @@
                 <div id="input-wrapper">
                     <!--It was a textarea all along. (Helps with sizing etc.)-->
                     <div id="output_box">
-                        <span>&nbsp;</span>
+                        <span id="output_text">&nbsp;</span>
                     </div>
                     <br/>
                     <textarea id="num" tabindex="0" rows="1"></textarea>
@@ -245,7 +245,7 @@
                     document.querySelector("span").innerHTML = "&nbsp;"
                 }
 
-                if (specialCases[num.value] != undefined) num.value = specialCases[num.value]
+                if (specialCases[num.value] != undefined) document.querySelector("span").innerText = specialCases[num.value]
                 
             }, false)
 

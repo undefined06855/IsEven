@@ -59,8 +59,6 @@
 
             :root
             {
-                --ye-colour: ;
-
                 --border-colour: rgb(4, 3, 3);
             }
 
@@ -236,6 +234,7 @@
 
                 if (specialCases[num.value] != undefined) out.innerText = specialCases[num.value];
             }
+
             //Stuff to handle changing stuff in input
             const maxlen = 8
                 , num = document.getElementById("num")
@@ -255,9 +254,9 @@
             num.addEventListener("input", update, false);
 
             chk.addEventListener("change", event => {
-                if (chk.value == "on")
+                if (chk.checked == 1)
                 {
-                    til.innerText = "is... odd?"
+                    til.innerHTML = "is&hellip; odd?"
                     colors = {
                         "yas": "rgb(219, 22, 15)",
                         "nooo": "rgb(45, 230, 142)"
@@ -265,21 +264,21 @@
                 }
                 else
                 {
-                    til.innerText = "isEven"
+                    til.innerHTML = "isEven"
                     colors = {
                         "yas": "rgb(45, 230, 142)",
                         "nooo": "rgb(219, 22, 15)"
                     };
                 }
-                update()
+                update();
             }, false);
             
 
-            //Center text in textarea (Why is there no css for this?) and set color to white when nothing inputted
+            //Adjust text in textarea (Why is there no css for this?)
             setInterval(() => {
                 num.style.paddingTop = ((num.offsetHeight / 2) - parseFloat(getComputedStyle(num).fontSize)) / 2 + "px";
                 num.style.paddingBottom = ((num.offsetHeight / 2) - parseFloat(getComputedStyle(num).fontSize)) / 2 + "px";
-            }, 50);
+            }, 500);
             
         </script>
     </body>
